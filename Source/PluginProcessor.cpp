@@ -6,7 +6,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout ArdenProcessor::layout(){
  using namespace juce; std::vector<std::unique_ptr<RangedAudioParameter>> p;
  auto f=[&](const char* id,const char* name,float a,float b,float initial,float step=0.01f){p.push_back(std::make_unique<AudioParameterFloat>(ParameterID{id,1},name,NormalisableRange<float>(a,b,step),initial));};
  f("input","Input",-24,24,0);f("drive","Drive",0,10,0);f("output","Output",-24,12,0);
- f("low","Low",-6,6,0);f("mid","Mid",-6,6,0);f("high","High",-6,6,0);
+ f("low","Low",-12,12,0);f("mid","Mid",-12,12,0);f("high","High",-12,12,0);
  p.push_back(std::make_unique<AudioParameterChoice>(ParameterID{"midfreq",1},"Mid Frequency",StringArray{"360 Hz","700 Hz","1.6 kHz","3.2 kHz","4.8 kHz","7.2 kHz"},2));
  p.push_back(std::make_unique<AudioParameterChoice>(ParameterID{"circuit",1},"Circuit",StringArray{"1073","Valve"},0));
  p.push_back(std::make_unique<AudioParameterChoice>(ParameterID{"meter",1},"Meter",StringArray{"IN","OUT"},1));
