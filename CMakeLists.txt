@@ -6,6 +6,7 @@ FetchContent_Declare(JUCE GIT_REPOSITORY https://github.com/juce-framework/JUCE.
 FetchContent_MakeAvailable(JUCE)
 juce_add_plugin(Arden COMPANY_NAME "Arden Audio" BUNDLE_ID "audio.arden.dualcircuit" PLUGIN_MANUFACTURER_CODE Ardn PLUGIN_CODE Ard1 FORMATS VST3 PRODUCT_NAME "ARDEN Dual Circuit Preamplifier" IS_SYNTH FALSE NEEDS_MIDI_INPUT FALSE NEEDS_MIDI_OUTPUT FALSE COPY_PLUGIN_AFTER_BUILD FALSE)
 juce_generate_juce_header(Arden)
+juce_add_binary_data(ArdenArt SOURCES Assets/ArdenPanel.png)
 target_sources(Arden PRIVATE Source/PluginProcessor.cpp Source/PluginEditor.cpp)
 target_compile_definitions(Arden PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0)
-target_link_libraries(Arden PRIVATE juce::juce_audio_utils juce::juce_dsp juce::juce_gui_extra juce::juce_recommended_config_flags juce::juce_recommended_lto_flags)
+target_link_libraries(Arden PRIVATE ArdenArt juce::juce_audio_utils juce::juce_dsp juce::juce_gui_extra juce::juce_recommended_config_flags juce::juce_recommended_lto_flags)
