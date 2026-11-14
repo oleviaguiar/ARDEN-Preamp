@@ -1,0 +1,36 @@
+
+name: Build ARDEN VST3 for Windows
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: windows-2022
+
+    steps:
+      - name: Download source
+        uses: actions/checkout@v4
+
+      - name: Configure JUCE and VST3
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+
+      - name: Compile VST3
+        run: cmake --build build --config Release --target Arden_VST3 --parallel 2
+
+      - name: Package VST3
+        shell: pwsh
+        run: |
+          $plugin = Get-ChildItem -Path build -Filter '*.vst3' -Recurse -Directory | Select-Object -First 1
+          if (-not $plugin) { throw 'VST3 not found' }
+          New-Item -ItemType Directory -Force -Path package | Out-Null
+          Copy-Item -Path $plugin.FullName -Destination package -Recurse
+
+      - name: Upload plugin
+        uses: actions/upload-artifact@v4
+        with:
+          name: ARDEN-Windows-VST3
+          path: package/
+          if-no-files-found: error
